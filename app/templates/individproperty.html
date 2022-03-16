@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block main %}
+<h1 class="page-header">Selected Property</h1>
+
+{% include 'flash_messages.html' %}
+
+<div class="single">
+
+    <div class="left">
+        <img class ="property-img" src = "{{ url_for('uploadimg', filename=property.pic) }}" alt ="Picture of the individual property">
+    </div>
+
+    <div class="right">
+
+        <p class="propertytitle">{{property.proptitle}}</p>
+        
+        <div class="pair">
+            <p class="propertyprice">{{property.propprice}}</p>
+            <p class="propertytype">{{property.proptype}}</p>
+        </div>
+
+        <p class="propertydescription">{{property.description}}</p>
+        
+        <div class="pair">
+            <p class="propertybedrooms">{{property.room}}</p>
+            <p class="propertybathrooms">{{property.bathroom}}</p>
+        </div>
+        
+        <p class="propertylocation">{{ property.location}}</p>
+        
+        <button class="special">Email Realtor</button>
+    </div>
+
+</div>
+
+{% endblock %}

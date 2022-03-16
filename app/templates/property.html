@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block main %}
+
+<h1 class="page-header">Add New Property</h1>
+
+<form id="property-form" action="{{ url_for('createproperty') }}" method="POST" enctype="multipart/form-data">
+    {{ form.csrf_token }}
+
+    <div class="input-group">
+        <p class="form-title">{{ form.proptitle.label }}</p>
+        {{ form.proptitle(class="form-inputs") }}
+    </div>
+
+    <div class="input-group">
+        <p class="form-title">{{ form.description.label }}</p>
+        {{ form.description(class="form-inputs") }}
+    </div>
+
+    
+    <div class="grid">
+        <div class="input-group">
+            <p class="form-title">{{ form.room.label }}</p> 
+            {{ form.room(class="form-inputs", placeholder="3") }}
+        </div>
+
+        <div class="input-group">
+            <p class="form-title">{{ form.bathroom.label }}</p> 
+            {{ form.bathroom(class="form-inputs", placeholder="2") }}
+        </div>
+
+        <div class="input-group">
+            <p class="form-title">{{ form.propprice.label }}</p> 
+            {{ form.propprice(class="form-inputs", placeholder="15,000,000") }}
+        </div>
+
+        <div class="input-group">
+            <p class="form-title">{{ form.proptype.label }}</p>
+            {{ form.proptype(class="form-inputs", placeholder="House") }}
+        </div>
+    </div>
+
+    <div class="input-group">
+        <p class="form-title">{{ form.location.label }}</p>
+        {{ form.location(class="form-inputs", placeholder="10 Waterloo Rd") }}
+    </div>
+
+    <div class="input-group">
+        <p class="form-title">{{ form.picture.label }}</p>
+        {{ form.picture(class="form-inputs") }}
+    </div>
+
+    <button name="submit" type="submit" class="btn">Add Property</button>
+</form>
+
+{% endblock %}
