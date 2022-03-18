@@ -39,37 +39,35 @@ def about():
 @app.route('/properties/create', methods=['GET', 'POST'])
 def createproperty():
     # Loads up the form
-    createprop = PropertyForm()
+    form = PropertyForm()
 
     # Checks for method type and validatation
     if request.method == 'POST':
-        if createprop.validate_on_submit():
+        if form.validate_on_submit():
 
             # Collect the data from the form
-            proptitle = createprop.title.data
-            description = createprop.description.data
-            room = createprop.room.data
-            bathroom = createprop.bathroom.data
-            propprice = createprop.propprice.data
-            proptype = createprop.proptype.data
-            location = createprop.location.data
+            proptitle = request.form['proptitle']
+            description = request.form['description']
+            room = request.form['room']
+            bathroom = request.form['bathroom']
+            propprice = request.form['propprice']
+            proptype = request.form['proptype']
+            location = request.form['location']
+            file = request.files['picup']
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-            picture = createprop.picture.data
-            filename = secure_filename(picture.filename)
-            picture.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-
-            # Create a Property object
             myprop = Property(proptitle, description, room, bathroom, propprice, proptype, location, filename)
             db.session.add(myprop)
             db.session.commit()
 
-            # Redirects user to the Properties page
             flash('New property has been succressfully created and added!', 'success')
             return redirect(url_for('properties'))
-    else:
-        flash_errors(createprop)
-
-    return render_template('property.html', form=createprop)
+        else:
+            flash("Error!")
+            return render_template('property.html', form=form)
+    elif request.method == 'GET':
+        return render_template('property.html', form=form)  
 
 @app.route('/properties')
 def properties():
@@ -77,7 +75,7 @@ def properties():
     properties=Property.query.all()
     return render_template("properties.html", properties=properties)
 
-@app.route('/property/<property_id>')
+@app.route('/property/<propertyid>')
 def propertyindivid(propertyid):
     propertyid = int(propertyid)
     myprop = Property.query.filter_by(id=propertyid).first()
@@ -86,8 +84,9 @@ def propertyindivid(propertyid):
 
 @app.route('/uploads/<filename>')
 def uploadimg(filename):
-    rootdir = os.getcwd()
-    return  send_from_directory(os.path.join(rootdir,app.config['UPLOAD_FOLDER']), filename)
+    upimg = send_from_directory(os.path.join(os.getcwd(),
+    app.config['UPLOAD_FOLDER']), filename)
+    return upimg
 
 
 ###
