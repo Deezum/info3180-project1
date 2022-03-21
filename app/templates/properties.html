@@ -5,14 +5,17 @@
 
 
 
-<div class="all-properties">
+<div class="grid">
     {% for property in properties %}
-    <div class="property">
+    <div class="cards">
         <img src="{{ url_for('uploadimg', filename=property.picture) }}" alt ="Picture of property"> <br />
-        <p class="property-title">{{ property.title }}</p>
-        <p class="property-location">{{ property.location }}</p>
-        <p class="property-price">{{ property.price }}</p>
-        <a href="{{ url_for('propertyindivid', propertyid=property.id) }}" class="go-to">View Property</a>
+        <p id="title2">{{ property.proptitle }}</p>
+        
+        <p id="local">{{ property.location }}</p>
+        <p class="pricec" id="box">${{ property.propprice }}</p>
+        <form  method="POST" action="/properties/<propertyid>">
+            <a class="id" href="{{ url_for('propertyindivid', propertyid=property.id) }}" class="go-to">View Property</a>
+        </form>
         
     </div>
     {% endfor %}
